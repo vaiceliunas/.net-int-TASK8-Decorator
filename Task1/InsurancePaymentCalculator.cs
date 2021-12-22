@@ -17,7 +17,14 @@ namespace Calculator.Task1
 
         public decimal CalculatePayment(string touristName)
         {
-            throw new NotImplementedException();
+            var currencyRate = currencyService.LoadCurrencyRate();
+            var trip = tripRepository.LoadTrip(touristName);
+
+            var result = (Constants.A * currencyRate * trip.FlyCost) +
+                         (Constants.B * currencyRate * trip.AccomodationCost) +
+                         (Constants.C * currencyRate * trip.ExcursionCost);
+            return result;
+
         }
     }
 }
