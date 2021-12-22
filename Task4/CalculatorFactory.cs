@@ -25,7 +25,15 @@ namespace Calculator.Task4
 
         public ICalculator CreateCalculator(bool withLogging, bool withCaching, bool withRounding)
         {
-            throw new NotImplementedException();
+            var result = CreateCalculator();
+
+            if (withCaching)
+                result = new CachedPaymentDecorator(result);
+            if (withRounding)
+                result = new RoundingCalculatorDecorator(result);
+            if (withLogging)
+                result = new LoggingCalculatorDecorator(result, logger);
+            return result;
         }
     }
 }
