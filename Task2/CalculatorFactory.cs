@@ -15,7 +15,7 @@
 
         public ICalculator CreateCachedCalculator()
         {
-            return new CachedInsurancePaymentCalculator(new InsurancePaymentCalculator(currencyService, tripRepository));
+            return new CachedInsurancePaymentCalculator(CreateCalculator());
         }
 
         public ICalculator CreateCalculator()
