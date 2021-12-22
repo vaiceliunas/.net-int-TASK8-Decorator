@@ -18,19 +18,33 @@ namespace Calculator.Task2
 
         public decimal CalculatePayment(string touristName)
         {
-            throw new NotImplementedException();
+            var currencyRate = currencyService.LoadCurrencyRate();
+            var trip = tripRepository.LoadTrip(touristName);
+
+            var result = (Constants.A * currencyRate * trip.FlyCost) +
+                         (Constants.B * currencyRate * trip.AccomodationCost) +
+                         (Constants.C * currencyRate * trip.ExcursionCost);
+            return result;
         }
     }
 
     public class CachedInsurancePaymentCalculator : ICalculator
     {
-        public CachedInsurancePaymentCalculator()
+        private ICalculator _calculator;
+        public CachedInsurancePaymentCalculator(ICalculator calculator)
         {
+            _calculator = calculator;
         }
 
         public decimal CalculatePayment(string touristName)
         {
-            throw new NotImplementedException();
+            var cachedItem = ConsoleCache.GetItem(touristName);
+            if (cachedItem != null)
+                return cachedItem.Value;
+
+            var result = _calculator.CalculatePayment(touristName);
+            ConsoleCache.AddItem(new KeyValuePair<string, decimal>(touristName,result));
+            return result;
         }
     }
 }

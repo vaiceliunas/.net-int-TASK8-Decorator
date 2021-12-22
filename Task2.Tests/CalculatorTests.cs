@@ -39,7 +39,6 @@ namespace Calculator.Task2.Tests
         public void Should_cache_insurance_payment()
         {
             Given_currency_rate(rate);
-
             Given_tourist_trip(touristName, flyCost, accomodationCost, excursionCost);
 
             var calculator = CreateCachedCalculator();
